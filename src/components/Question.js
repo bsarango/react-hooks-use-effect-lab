@@ -1,9 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Question({ question, onAnswered }) {
   const [timeRemaining, setTimeRemaining] = useState(10);
 
   // add useEffect code
+  //Create useEffect Fn; use setTimeout inside w/ it assigned to a variable 
+  useEffect(()=>{
+    const timerID = setTimeout(()=>{
+      setTimeRemaining(timeRemaining - 1)
+      console.log("Side effect")
+    },1000)
+
+    if(timeRemaining === 0){
+          onAnswered(false)
+          setTimeRemaining(10)
+    }
+    
+    return function cleanUp(){
+      clearTimeout(timerID)
+      console.log("cleanUp")
+    }
+    
+    
+  },[timeRemaining]) 
 
   function handleAnswer(isCorrect) {
     setTimeRemaining(10);
